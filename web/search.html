@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Appointments</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Government Appointment System</h1>
+            <p>Search your appointments</p>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="book.html">Book Appointment</a>
+            <a href="search.html" class="active">Search</a>
+        </nav>
+        <main>
+            <div class="search-container">
+                <h2>Search Appointments</h2>
+                <div class="search-options">
+                    <div class="search-option">
+                        <h3>Search by CNIC</h3>
+                        <form id="searchCNICForm">
+                            <input type="text" id="searchCNIC" placeholder="42101-1234567-1" required>
+                            <button type="submit" class="btn-primary">Search</button>
+                        </form>
+                    </div>
+                    <div class="search-option">
+                        <h3>Search by Confirmation Code</h3>
+                        <form id="searchConfirmationForm">
+                            <input type="text" id="searchConfirmation" placeholder="APT-KHI-001" required>
+                            <button type="submit" class="btn-primary">Search</button>
+                        </form>
+                    </div>
+                    <div class="search-option">
+                        <h3>View All Appointments</h3>
+                        <button id="viewAllBtn" class="btn-primary">View All</button>
+                    </div>
+                </div>
+                <div id="searchResults" class="results"></div>
+            </div>
+        </main>
+        <footer>
+            <p>2025 Government Appointment System</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

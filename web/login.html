@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Government Appointment System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Government Appointment System</h1>
+            <p>Login to your account</p>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html" class="active">Login</a>
+            <a href="book.html">Book Appointment</a>
+            <a href="search.html">Search</a>
+        </nav>
+        <main>
+            <div class="login-container">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>User Type:</label>
+                        <select id="userType" required>
+                            <option value="">Select User Type</option>
+                            <option value="citizen">Citizen</option>
+                            <option value="staff">Office Staff</option>
+                            <option value="admin">System Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" id="username" placeholder="Enter username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" id="password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+                <div id="loginMessage" class="message"></div>
+                <div class="demo-credentials">
+                    <h3>Demo Credentials:</h3>
+                    <p><strong>Citizen:</strong> user: citizen1 | pass: pass123</p>
+                    <p><strong>Staff:</strong> user: staff1 | pass: staff123</p>
+                    <p><strong>Admin:</strong> user: admin | pass: admin123</p>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>2025 Government Appointment System</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
