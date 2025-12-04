@@ -1,59 +1,115 @@
 # Government Appointment System
 
-A distributed appointment booking system for Pakistani government offices (NADRA, Passport) using custom data structures.
+A distributed appointment booking system for Pakistani government offices (NADRA, Passport) using custom B-tree and hash table data structures implemented from scratch in C++.
+
+## Overview
+
+This system eliminates long queues at government offices by allowing citizens to book specific appointment time slots online. The backend uses custom data structures for efficient appointment management, while the frontend provides an intuitive web interface.
 
 ## Features
 
-- Custom B-tree implementation for sorted time slot storage
-- Hash table for O(1) CNIC and confirmation code lookups
-- JSON API for appointment management
-- Support for multiple cities (Karachi, Lahore, Islamabad)
+- Custom B-tree implementation for time-ordered appointment storage
+- Hash table with O(1) lookup for CNIC and confirmation codes
+- JSON API for structured data output
+- Multi-city support (Karachi, Lahore, Islamabad)
+- Web interface with booking and search functionality
+- Cloud deployment on AWS EC2
 
-## Data Structures Used
+## Data Structures
 
 ### B-Tree
 - Stores appointments sorted by date and time
-- Enables fast range queries (e.g., "all slots between 9 AM - 12 PM")
-- Balanced tree structure for efficient insertion and search
+- Enables efficient range queries for time slot searches
+- Self-balancing structure maintains O(log n) operations
 
 ### Hash Table
-- Instant CNIC number lookups
+- Provides constant-time CNIC lookups
 - Fast confirmation code searches
-- Chaining for collision handling
+- Collision handling via chaining
 
 ## Project Structure
 
 GovAppointmentSystem/
-├── src/ # Source files
-│ ├── BTree.cpp # B-tree implementation
-│ ├── HashTable.cpp # Hash table implementation
-│ ├── API.cpp # API layer
-│ └── GovAppointmentSystem.cpp # Main program
-├── include/ # Header files
-│ ├── Appointment.h # Appointment structure
-│ ├── BTree.h # B-tree interface
-│ ├── HashTable.h # Hash table interface
-│ ├── API.h # API interface
-│ └── json.hpp # JSON library
-├── docs/ # Documentation
-└── README.md # This file
+├── src/
+│ ├── BTree.cpp
+│ ├── HashTable.cpp
+│ ├── API.cpp
+│ └── GovAppointmentSystem.cpp
+├── include/
+│ ├── Appointment.h
+│ ├── BTree.h
+│ ├── HashTable.h
+│ ├── API.h
+│ └── json.hpp
+├── web/
+│ ├── index.html
+│ ├── login.html
+│ ├── book.html
+│ ├── search.html
+│ ├── style.css
+│ └── app.js
+└── README.md
 
 
 ## Technologies
 
 - **Language:** C++17
-- **Build System:** Visual Studio 2022 / g++
-- **JSON Library:** nlohmann/json (formatting only)
-- **Cloud Platform:** AWS EC2 (upcoming)
-- **Version Control:** GitHub
+- **Build Tools:** Visual Studio 2022, g++
+- **JSON Library:** nlohmann/json
+- **Cloud Platform:** AWS EC2 (Ubuntu 24.04)
+- **Frontend:** HTML5, CSS3, JavaScript
 
-## How to Compile and Run
+## Compilation and Execution
+
+### Using g++ (Linux/AWS)
+g++ -std=c++17 src/BTree.cpp src/HashTable.cpp src/API.cpp src/GovAppointmentSystem.cpp -I include -o appointment_system
+./appointment_system
+
 
 ### Using Visual Studio 2022
-1. Open Visual Studio 2022
-2. Create new Console App project
-3. Add all files from `src/` and `include/`
-4. Build: Ctrl + Shift + B
-5. Run: Ctrl + F5
+1. Create new Console App project
+2. Add all source files from `src/` and headers from `include/`
+3. Build and run (Ctrl + F5)
 
-### Using g++
+## System Features
+
+### Console Interface
+1. Book New Appointment
+2. Search by Date Range
+3. Search by CNIC
+4. Search by Confirmation Code
+5. View All Appointments
+6. Save Data to File
+7. Exit
+
+### Web Interface
+- Pakistan-themed design (green and white colors)
+- User authentication with role-based access
+- Interactive booking forms
+- Real-time appointment search
+- Confirmation code generation
+
+## AWS Deployment
+
+The system is deployed on AWS EC2 infrastructure:
+- Instance Type: t3.micro
+- Operating System: Ubuntu 24.04 LTS
+- Region: Asia Pacific (Sydney)
+
+## Development
+
+This project was developed as part of a Data Structures and Algorithms course, demonstrating practical applications of:
+- Tree data structures
+- Hash tables and collision resolution
+- API design patterns
+- Full-stack development
+- Cloud deployment
+
+## Author
+
+Syed Muhammad Wasay  
+December 2025
+
+## License
+
+Educational project for academic coursework.
