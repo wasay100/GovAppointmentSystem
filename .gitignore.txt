@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+*.user
+*.sln
+*.vcxproj
+*.vcxproj.filters
+Debug/
+Release/
+x64/
+x86/
+
+# Compiled
+*.exe
+*.obj
+*.o
+
+# Data files
+*.json
+appointments.json
