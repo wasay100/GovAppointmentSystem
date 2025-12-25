@@ -3,79 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment</title>
+    <title>Book Appointment - Government System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Government Appointment System</h1>
-            <p>Book your appointment</p>
+            <h1>🏛️ Government Appointment System</h1>
+            <p>Book your NADRA/Passport appointment</p>
         </header>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="book.html" class="active">Book Appointment</a>
-            <a href="search.html">Search</a>
-        </nav>
-        <main>
-            <div class="booking-container">
-                <h2>Book New Appointment</h2>
-                <form id="bookingForm">
+
+        <div class="form-container">
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>CNIC (xxxxx-xxxxxxx-x) *</label>
+                    <input type="text" id="cnic" placeholder="42101-1234567-1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="0300-1234567" required>
+                </div>
+
+                <div class="form-group">
+                    <label>City *</label>
+                    <select id="city" required>
+                        <option value="">Select City</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Lahore">Lahore</option>
+                        <option value="Islamabad">Islamabad</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Office *</label>
+                    <select id="office" required>
+                        <option value="">Select Office</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Service *</label>
+                    <select id="service" required>
+                        <option value="">Select Service</option>
+                        <option value="New CNIC">New CNIC</option>
+                        <option value="CNIC Renewal">CNIC Renewal</option>
+                        <option value="New Passport">New Passport</option>
+                        <option value="Passport Renewal">Passport Renewal</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group">
-                        <label>City:</label>
-                        <select id="city" required>
-                            <option value="">Select City</option>
-                            <option value="Karachi">Karachi</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Islamabad">Islamabad</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Office:</label>
-                        <select id="office" required>
-                            <option value="">Select City First</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Service:</label>
-                        <select id="service" required>
-                            <option value="">Select Service</option>
-                            <option value="New CNIC">New CNIC</option>
-                            <option value="CNIC Renewal">CNIC Renewal</option>
-                            <option value="New Passport">New Passport</option>
-                            <option value="Passport Renewal">Passport Renewal</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Date:</label>
+                        <label>Date *</label>
                         <input type="date" id="date" required>
                     </div>
                     <div class="form-group">
-                        <label>Time:</label>
+                        <label>Time *</label>
                         <input type="time" id="time" required>
                     </div>
-                    <div class="form-group">
-                        <label>CNIC:</label>
-                        <input type="text" id="cnic" placeholder="42101-1234567-1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Full Name:</label>
-                        <input type="text" id="name" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone:</label>
-                        <input type="tel" id="phone" placeholder="0300-1234567" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Book Appointment</button>
-                </form>
-                <div id="bookingResult" class="result"></div>
-            </div>
-        </main>
-        <footer>
-            <p>2025 Government Appointment System</p>
-        </footer>
+                </div>
+
+                <button type="submit" onclick="bookAppointment(event)">📅 Book Appointment</button>
+            </form>
+        </div>
+
+        <div id="status" class="status"></div>
     </div>
-    <script src="app.js"></script>
+
+    <script>
+        // Update office dropdown based on city
+        document.getElementById('city').addEventListener('change', function() {
+            const city = this.value;
+            const officeSelect = document.getElementById('office');
+            officeSelect.innerHTML = '<option value="">Select Office</option>';
+            
+            const offices = {
+                'Karachi': ['NADRA Saddar', 'NADRA Clifton', 'Passport Office Clifton'],
+                'Lahore': ['NADRA Gulberg', 'NADRA Model Town', 'Passport Office Gulberg'],
+                'Islamabad': ['NADRA G-6', 'NADRA F-7', 'Passport Office G-8']
+            };
+            
+            if (offices[city]) {
+                offices[city].forEach(office => {
+                    const option = document.createElement('option');
+                    option.value = office;
+                    option.textContent = office;
+                    officeSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('date').valueAsDate = tomorrow;
+
+        // MAIN BOOKING FUNCTION - CONNECTS TO C++ SERVER
+        async function bookAppointment(event) {
+            event.preventDefault();
+            
+            // Show loading
+            document.getElementById('status').innerHTML = '⏳ Connecting to server...';
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                cnic: document.getElementById('cnic').value,
+                phone: document.getElementById('phone').value,
+                city: document.getElementById('city').value,
+                office: document.getElementById('office').value,
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value
+            };
+            
+            try {
+                // Send to C++ HTTP Server
+                const response = await fetch('http://localhost:8080/api/book', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // SUCCESS!
+                    document.getElementById('status').innerHTML = `
+                        <div class="success">
+                            ✅ <strong>Appointment Booked Successfully!</strong><br>
+                            <strong>Confirmation Code:</strong> ${result.confirmationCode}<br>
+                            <small>Save this code for your records</small>
+                        </div>
+                    `;
+                    document.getElementById('bookingForm').reset();
+                } else {
+                    document.getElementById('status').innerHTML = `
+                        <div class="error">❌ ${result.message}</div>
+                    `;
+                }
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `
+                    <div class="error">
+                        ❌ Cannot connect to server!<br>
+                        <small>Make sure C++ server is running (check Terminal)</small>
+                    </div>
+                `;
+                console.error('Server error:', error);
+            }
+        }
+    </script>
 </body>
 </html>

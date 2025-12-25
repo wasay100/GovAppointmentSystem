@@ -1,9 +1,11 @@
 #pragma once
 #include "BTree.h"
 #include "HashTable.h"
+#include "Appointment.h"
 #include "json.hpp"
 #include <string>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 using json = nlohmann::json;
@@ -13,6 +15,8 @@ private:
     BTree* btree;
     HashTable* htable;
     int appointmentCounter;
+
+    string generateConfirmationCode(const string& city);
 
 public:
     AppointmentAPI(BTree* bt, HashTable* ht);
@@ -29,4 +33,5 @@ public:
 
     void saveToFile(const string& filename);
     void loadFromFile(const string& filename);
+    void loadInitialData();
 };
